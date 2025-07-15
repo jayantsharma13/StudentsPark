@@ -1,7 +1,9 @@
 import type { Review, NewReview } from '../types/review';
 
 // API configuration
-const API_BASE_URL = 'http://localhost:5000/api/v1';
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://studentspark-backend.onrender.com/api/v1'  // Update this with your actual Render backend URL
+  : 'http://localhost:5000/api/v1';
 
 class ApiService {
   private baseURL: string;
@@ -83,7 +85,7 @@ class ApiService {
   // Health check
   async healthCheck(): Promise<{ success: boolean; error?: string }> {
     try {
-      const response = await fetch(`http://localhost:5000/health`);
+      const response = await fetch(`${process.env.NODE_ENV === 'production' ? 'https://studentspark-backend.onrender.com' : 'http://localhost:5000'}/health`);
       return await response.json();
     } catch (error) {
       console.error('Health check failed:', error);
