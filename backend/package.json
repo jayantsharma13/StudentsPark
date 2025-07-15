@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
+    "build": "echo 'No build needed for Node.js backend'",
     "dev": "node --watch server.js",
     "seed": "node seedDatabase.js",
     "test": "echo \"Error: no test specified\" && exit 1"
