@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getReviewById } from '../data/mockData';
+import apiService from '../services/apiService';
 import type { Review } from '../types/review';
 
 export function ReviewDetails() {
@@ -13,7 +13,7 @@ export function ReviewDetails() {
     const fetchReview = async () => {
       if (id) {
         try {
-          const reviewData = await getReviewById(id);
+          const reviewData = await apiService.getReviewById(id);
           setReview(reviewData);
         } catch (error) {
           console.error('Error fetching review:', error);

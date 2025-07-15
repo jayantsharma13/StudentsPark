@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ReviewCard } from '../components/ReviewCard';
-import { getReviews } from '../data/mockData';
+import apiService from '../services/apiService';
 import type { Review } from '../types/review';
 
 export function HomePage() {
@@ -17,7 +17,7 @@ export function HomePage() {
     const fetchReviews = async () => {
       try {
         setLoading(true);
-        const fetchedReviews = await getReviews();
+        const fetchedReviews = await apiService.getAllReviews();
         setReviews(fetchedReviews);
       } catch (error) {
         console.error('Error fetching reviews:', error);

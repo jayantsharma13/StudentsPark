@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { NewReview } from '../types/review';
-import { addReview } from '../data/mockData';
+import apiService from '../services/apiService';
 
 export function SubmitReview() {
   const navigate = useNavigate();
@@ -131,7 +131,7 @@ export function SubmitReview() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const newReview = await addReview(formData);
+      const newReview = await apiService.createReview(formData);
       navigate(`/review/${newReview.id}`);
     } catch (error) {
       console.error('Error submitting review:', error);
