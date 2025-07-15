@@ -12,7 +12,7 @@ function App() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Link to="/" className="text-3xl font-bold text-red-600 hover:text-red-500 transition-colors">
-                PlaceReview
+                StudentsPark
               </Link>
               <span className="text-white text-xs ml-2 bg-gray-800 px-2 py-1 rounded">EPISODES</span>
             </div>
@@ -47,7 +47,7 @@ function App() {
       <footer className="bg-black border-t border-gray-800 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
-            <div className="text-red-600 text-2xl font-bold mb-4">PlaceReview</div>
+            <div className="text-red-600 text-2xl font-bold mb-4">StudentsPark</div>
             <p className="text-gray-400 mb-4">Your ultimate destination for placement interview stories</p>
             <div className="flex justify-center space-x-6 text-gray-500 text-sm">
               <span>🎬 Original Content</span>
@@ -55,7 +55,7 @@ function App() {
               <span>🎯 Interview Prep</span>
               <span>💼 Career Success</span>
             </div>
-            <p className="text-gray-600 text-sm mt-6">&copy; 2024 PlaceReview. Empowering students through shared experiences.</p>
+            <p className="text-gray-600 text-sm mt-6">&copy; 2024 StudentsPark. Empowering students through shared experiences.</p>
           </div>
         </div>
       </footer>

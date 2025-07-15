@@ -1,6 +1,99 @@
-# React + TypeScript + Vite
+# StudentsPark - College Placement Review Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web platform for students to share and discover college placement experiences, built with React + TypeScript + Vite and powered by MongoDB.
+
+## 🎯 Features
+
+- **📝 Interview Stories**: Share detailed placement experiences with ratings and feedback
+- **🏢 Company Grouping**: View multiple reviews organized by company
+- **🔍 Smart Search**: Filter and sort reviews by company, rating, and date
+- **📊 Statistics**: Company-wise review counts and average ratings
+- **🎨 Netflix-Style UI**: Modern dark theme with responsive design
+- **💾 Persistent Storage**: All data stored in MongoDB Atlas
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js (v16 or higher)
+- MongoDB Atlas account
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/jayantsharma13/StudentsPark.git
+cd StudentsPark
+```
+
+2. Install dependencies:
+```bash
+# Frontend dependencies
+npm install
+
+# Backend dependencies
+cd backend
+npm install
+```
+
+3. Set up environment variables:
+Create a `.env` file in the backend directory:
+```env
+MONGODB_URI=your_mongodb_atlas_connection_string
+PORT=5000
+```
+
+4. Start the application:
+```bash
+# Option 1: Use the batch file (Windows)
+start-full-stack.bat
+
+# Option 2: Manual start
+# Terminal 1 - Backend
+cd backend
+npm start
+
+# Terminal 2 - Frontend
+npm run dev
+```
+
+## 🛠 Technology Stack
+
+- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS
+- **Backend**: Node.js, Express.js, MongoDB, Mongoose
+- **Deployment**: Ready for Vercel/Netlify (frontend) and Railway/Heroku (backend)
+
+## 📁 Project Structure
+
+```
+StudentsPark/
+├── src/                    # Frontend React app
+│   ├── components/         # React components
+│   ├── types/             # TypeScript type definitions
+│   └── assets/            # Static assets
+├── backend/               # Backend API server
+│   ├── models/            # MongoDB schemas
+│   ├── routes/            # API routes
+│   ├── config/            # Database configuration
+│   └── controllers/       # Route handlers
+├── public/                # Public static files
+└── dist/                  # Build output
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature-name`
+3. Commit changes: `git commit -m 'Add feature'`
+4. Push to branch: `git push origin feature-name`
+5. Open a Pull Request
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+---
+
+Built with ❤️ for students, by students
 
 Currently, two official plugins are available:
 

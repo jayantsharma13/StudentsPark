@@ -1,7 +1,7 @@
 @echo off
 echo.
 echo ====================================
-echo  NIT Hamirpur Backend API Server
+echo StudentsPark Backend API Server
 echo ====================================
 echo.
 

@@ -1,10 +1,17 @@
 import type { Review, NewReview } from '../types/review';
 import apiService from '../services/apiService';
 
+// Helper function to generate MongoDB-like ObjectId
+const generateObjectId = (): string => {
+  const timestamp = Math.floor(Date.now() / 1000).toString(16);
+  const random = Math.random().toString(16).substring(2, 18);
+  return (timestamp + random).padEnd(24, '0').substring(0, 24);
+};
+
 // Fallback mock data for offline development
 export const mockReviews: Review[] = [
   {
-    id: '1',
+    id: '507f1f77bcf86cd799439011',
     companyName: 'Google',
     jobRole: 'Software Engineer - SDE',
     location: 'Bangalore, India',
@@ -77,7 +84,7 @@ export const mockReviews: Review[] = [
     tags: ['Tech Giant', 'High Package', 'Challenging', 'Great Culture', 'Selected']
   },
   {
-    id: '2',
+    id: '507f1f77bcf86cd799439012',
     companyName: 'Microsoft',
     jobRole: 'Software Development Engineer',
     location: 'Hyderabad, India',
@@ -212,7 +219,7 @@ export const addReview = async (review: NewReview): Promise<Review> => {
     // Fallback: simulate adding to mock data
     const newReview: Review = {
       ...review,
-      id: `mock-${Date.now()}`,
+      id: generateObjectId(),
       datePosted: new Date().toISOString().split('T')[0]
     };
     

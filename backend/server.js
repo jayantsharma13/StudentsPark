@@ -57,7 +57,7 @@ app.use(generalLimiter);
 app.get('/health', (req, res) => {
   res.json({
     success: true,
-    message: 'NIT Hamirpur Placement Reviews API is running!',
+    message: 'StudentsPark Placement Reviews API is running!',
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || 'development'
   });
@@ -70,7 +70,7 @@ app.use('/api/v1/reviews', reviewRoutes);
 app.get('/', (req, res) => {
   res.json({
     success: true,
-    message: 'Welcome to NIT Hamirpur Placement Reviews API',
+    message: 'Welcome to StudentsPark Placement Reviews API',
     version: '1.0.0',
     documentation: '/api/v1/reviews',
     endpoints: {
@@ -100,7 +100,7 @@ app.use(errorHandler);
 // Start server
 app.listen(PORT, () => {
   console.log(`
-🚀 NIT Hamirpur Placement Reviews API Server Started!
+🚀 StudentsPark Placement Reviews API Server Started!
   
 📍 Server running on: http://localhost:${PORT}
 🌍 Environment: ${process.env.NODE_ENV || 'development'}

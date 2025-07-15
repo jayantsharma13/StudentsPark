@@ -1,12 +1,13 @@
 {
-  "name": "nit-hamirpur-backend",
+  "name": "studentspark-backend",
   "version": "1.0.0",
-  "description": "Backend API for NIT Hamirpur Placement Reviews",
+  "description": "Backend API for StudentsPark Placement Reviews",
   "main": "server.js",
   "type": "module",
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
+    "seed": "node seedDatabase.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -26,6 +27,6 @@
     "placement",
     "reviews"
   ],
-  "author": "NIT Hamirpur",
+  "author": "StudentsPark Team",
   "license": "MIT"
 }

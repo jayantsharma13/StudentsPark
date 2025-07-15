@@ -1,4 +1,4 @@
-# NIT Hamirpur Placement Reviews - Backend API
+# StudentsPark Placement Reviews - Backend API
 
 A robust Node.js/Express API server for managing placement review data with MongoDB Atlas integration.
 

@@ -1,15 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ReviewCard } from '../components/ReviewCard';
-import { mockReviews } from '../data/mockData';
+import { getReviews } from '../data/mockData';
+import type { Review } from '../types/review';
 
 export function HomePage() {
   const [sortBy, setSortBy] = useState<'date' | 'rating' | 'company'>('date');
   const [filterByRating, setFilterByRating] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [groupedView, setGroupedView] = useState(true);
+
+  // Fetch reviews on component mount
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        setLoading(true);
+        const fetchedReviews = await getReviews();
+        setReviews(fetchedReviews);
+      } catch (error) {
+        console.error('Error fetching reviews:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReviews();
+  }, []);
 
   // Filter and sort reviews
-  const filteredAndSortedReviews = mockReviews
+  const filteredAndSortedReviews = reviews
     .filter((review: any) => {
       const matchesSearch = searchTerm === '' || 
         review.companyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -35,8 +56,27 @@ export function HomePage() {
       }
     });
 
-  const averageRating = mockReviews.reduce((sum: number, review: any) => sum + review.rating.overall, 0) / mockReviews.length;
-  const selectedCount = mockReviews.filter((review: any) => review.result === 'Selected').length;
+  // Group reviews by company
+  const groupedReviews = filteredAndSortedReviews.reduce((groups: any, review: any) => {
+    const company = review.companyName;
+    if (!groups[company]) {
+      groups[company] = [];
+    }
+    groups[company].push(review);
+    return groups;
+  }, {});
+
+  // Sort companies by the number of reviews (descending) or alphabetically
+  const sortedCompanies = Object.keys(groupedReviews).sort((a, b) => {
+    if (sortBy === 'company') {
+      return a.localeCompare(b);
+    }
+    // Default: sort by number of reviews (most reviews first)
+    return groupedReviews[b].length - groupedReviews[a].length;
+  });
+
+  const averageRating = reviews.length > 0 ? reviews.reduce((sum: number, review: any) => sum + review.rating.overall, 0) / reviews.length : 0;
+  const selectedCount = reviews.filter((review: any) => review.result === 'Selected').length;
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -66,8 +106,12 @@ export function HomePage() {
             </Link>
             <div className="flex gap-8 text-gray-300">
               <div className="text-center">
-                <div className="text-3xl font-bold text-white">{mockReviews.length}</div>
-                <div className="text-sm">Episodes Available</div>
+                <div className="text-3xl font-bold text-white">{reviews.length}</div>
+                <div className="text-sm">Total Reviews</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-white">{Object.keys(groupedReviews).length}</div>
+                <div className="text-sm">Companies</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-white">{averageRating.toFixed(1)}</div>
@@ -126,6 +170,33 @@ export function HomePage() {
                 <option value="1">⭐+ All Stories</option>
               </select>
             </div>
+
+            {/* View Toggle */}
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">View Style</label>
+              <div className="flex rounded-md overflow-hidden">
+                <button
+                  onClick={() => setGroupedView(true)}
+                  className={`px-4 py-3 text-sm font-medium ${
+                    groupedView 
+                      ? 'bg-red-600 text-white' 
+                      : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                  } transition-colors`}
+                >
+                  🏢 By Company
+                </button>
+                <button
+                  onClick={() => setGroupedView(false)}
+                  className={`px-4 py-3 text-sm font-medium ${
+                    !groupedView 
+                      ? 'bg-red-600 text-white' 
+                      : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                  } transition-colors border-l border-gray-700`}
+                >
+                  📄 All Reviews
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -159,12 +230,25 @@ export function HomePage() {
       </div>        {/* Results Summary */}
         <div className="mb-6">
           <p className="text-gray-300 text-lg">
-            📺 {filteredAndSortedReviews.length} of {mockReviews.length} episodes available
+            📺 {filteredAndSortedReviews.length} reviews from {sortedCompanies.length} companies
           </p>
         </div>
 
-      {/* Netflix-style Reviews Grid */}
-      {filteredAndSortedReviews.length === 0 ? (
+      {/* Loading State */}
+      {loading ? (
+        <div className="text-center py-16 bg-gray-900 rounded-lg border border-gray-800">
+          <div className="text-red-400 mb-6">
+            <svg className="animate-spin mx-auto h-20 w-20" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </div>
+          <h3 className="text-2xl font-bold text-white mb-4">Loading Reviews...</h3>
+          <p className="text-gray-400">Fetching the latest placement experiences...</p>
+        </div>
+      ) : (
+      /* Netflix-style Reviews Grid */
+      filteredAndSortedReviews.length === 0 ? (
         <div className="text-center py-16 bg-gray-900 rounded-lg border border-gray-800">
           <div className="text-red-400 mb-6">
             <svg className="mx-auto h-20 w-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -186,14 +270,54 @@ export function HomePage() {
         <>
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-white mb-4">🎭 Interview Stories Collection</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {filteredAndSortedReviews.map((review: any) => (
-                <ReviewCard key={review.id} review={review} />
-              ))}
-            </div>
+            
+            {groupedView ? (
+              /* Company-wise grouped reviews */
+              <div className="space-y-8">
+                {sortedCompanies.map((company) => (
+                  <div key={company} className="bg-gray-800 rounded-lg border border-gray-700 p-6">
+                    {/* Company Header */}
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-4">
+                        <h3 className="text-xl font-bold text-white">{company}</h3>
+                        <span className="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                          {groupedReviews[company].length} {groupedReviews[company].length === 1 ? 'Review' : 'Reviews'}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-gray-400">
+                        <span>Avg Rating:</span>
+                        <div className="flex items-center gap-1">
+                          <span className="text-yellow-400">★</span>
+                          <span className="text-white font-medium">
+                            {(groupedReviews[company].reduce((sum: number, review: any) => sum + review.rating.overall, 0) / groupedReviews[company].length).toFixed(1)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Reviews Grid for this company */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                      {groupedReviews[company].map((review: any) => (
+                        <ReviewCard key={review.id} review={review} />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              /* Individual reviews in grid format */
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                {filteredAndSortedReviews.map((review) => (
+                  <ReviewCard key={review.id} review={review} />
+                ))}
+              </div>
+            )}
           </div>
         </>
-      )}        {/* Netflix-style Call to Action */}
+      )
+      )}
+
+      {/* Netflix-style Call to Action */}
         {filteredAndSortedReviews.length > 0 && (
           <div className="mt-16 text-center bg-gradient-to-r from-red-900 via-gray-900 to-black rounded-lg p-12 border border-gray-800">
             <div className="bg-red-600 text-white px-4 py-2 rounded font-bold text-sm inline-block mb-4">
