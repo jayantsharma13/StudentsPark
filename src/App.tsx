@@ -1,9 +1,20 @@
+import { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import { HomePage } from './components/HomePage';
 import { SubmitReview } from './components/SubmitReview';
 import { ReviewDetails } from './components/ReviewDetails';
+import { NetflixSplash } from './components/NetflixSplash';
 
 function App() {
+  const [showSplash, setShowSplash] = useState(true);
+
+  const handleSplashComplete = () => {
+    setShowSplash(false);
+  };
+
+  if (showSplash) {
+    return <NetflixSplash onAnimationComplete={handleSplashComplete} />;
+  }
   return (
     <div className="min-h-screen bg-black">
       {/* Netflix-style Navigation */}
