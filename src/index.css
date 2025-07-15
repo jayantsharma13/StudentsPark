@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Netflix-style custom styles */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Netflix-style background */
+body {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* Netflix-style scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e50914;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b20710;
+}
+
+/* Netflix-style gradient text */
+.netflix-gradient-text {
+  background: linear-gradient(to right, #ffffff, #ff0000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Netflix-style hover effects */
+.netflix-card-hover {
+  transition: all 0.3s ease;
+}
+
+.netflix-card-hover:hover {
+  transform: scale(1.02);
+  box-shadow: 0 20px 40px rgba(229, 9, 20, 0.3);
+}

@@ -1,0 +1,31 @@
+{
+  "name": "nit-hamirpur-backend",
+  "version": "1.0.0",
+  "description": "Backend API for NIT Hamirpur Placement Reviews",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.16.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "express-rate-limit": "^7.1.5"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "mongodb",
+    "api",
+    "placement",
+    "reviews"
+  ],
+  "author": "NIT Hamirpur",
+  "license": "MIT"
+}
