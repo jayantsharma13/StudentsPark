@@ -1,7 +1,7 @@
 @echo off
 echo.
 echo ================================
-echo  NIT Hamirpur Platform Setup
+echo  StudentsPark Platform Setup
 echo ================================
 echo.
 

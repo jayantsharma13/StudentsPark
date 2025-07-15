@@ -56,6 +56,13 @@ export const getAllReviews = async (req, res) => {
       .limit(parseInt(limit))
       .lean();
 
+    // Transform _id to id for frontend compatibility
+    const transformedReviews = reviews.map(review => ({
+      ...review,
+      id: review._id.toString(),
+      _id: undefined
+    }));
+
     // Get total count for pagination
     const total = await Review.countDocuments(filter);
     
@@ -66,7 +73,7 @@ export const getAllReviews = async (req, res) => {
 
     res.json({
       success: true,
-      data: reviews,
+      data: transformedReviews,
       pagination: {
         currentPage: parseInt(page),
         totalPages,
@@ -100,9 +107,16 @@ export const getReviewById = async (req, res) => {
       });
     }
 
+    // Transform _id to id for frontend compatibility
+    const transformedReview = {
+      ...review,
+      id: review._id.toString(),
+      _id: undefined
+    };
+
     res.json({
       success: true,
-      data: review
+      data: transformedReview
     });
   } catch (error) {
     console.error('Error fetching review:', error);
@@ -135,10 +149,17 @@ export const createReview = async (req, res) => {
     const review = new Review(reviewData);
     const savedReview = await review.save();
 
+    // Transform _id to id for frontend compatibility
+    const transformedReview = {
+      ...savedReview.toObject(),
+      id: savedReview._id.toString(),
+      _id: undefined
+    };
+
     res.status(201).json({
       success: true,
       message: 'Review created successfully',
-      data: savedReview
+      data: transformedReview
     });
   } catch (error) {
     console.error('Error creating review:', error);
