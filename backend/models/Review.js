@@ -25,6 +25,31 @@ const interviewExperienceSchema = new mongoose.Schema({
   rounds: [interviewRoundSchema]
 });
 
+// Rating Schema
+const ratingSchema = new mongoose.Schema({
+  overall: { type: Number, min: 1, max: 5, required: true },
+  processClarity: { type: Number, min: 1, max: 5, required: true },
+  interviewerBehavior: { type: Number, min: 1, max: 5, required: true },
+  difficultyRating: { type: Number, min: 1, max: 5, required: true },
+  wouldRecommend: { type: Number, min: 1, max: 5, required: true }
+});
+
+// Salary Schema
+const salarySchema = new mongoose.Schema({
+  amount: { type: Number },
+  currency: { type: String, default: 'INR' },
+  period: { type: String, enum: ['yearly', 'monthly'], default: 'yearly' }
+});
+
+// Reviewer Info Schema
+const reviewerInfoSchema = new mongoose.Schema({
+  college: { type: String },
+  degree: { type: String },
+  passingYear: { type: Number },
+  cgpa: { type: Number },
+  previousExperience: { type: String }
+});
+
 // Main Review Schema
 const reviewSchema = new mongoose.Schema({
   // Basic Information
@@ -37,7 +62,7 @@ const reviewSchema = new mongoose.Schema({
   experienceType: { 
     type: String, 
     required: true, 
-    enum: ['Online Assessment Only', 'Interview Only', 'Both'] 
+    enum: ['Interview', 'Online Assessment', 'Both'] 
   },
   processStages: [{ type: String }],
   difficulty: { type: String, enum: ['Easy', 'Medium', 'Hard'] },
@@ -47,22 +72,26 @@ const reviewSchema = new mongoose.Schema({
   oaExperience: oaExperienceSchema,
   interviewExperience: interviewExperienceSchema,
   
-  // Additional Information
-  overallExperience: { type: String },
-  tips: { type: String },
-  wouldRecommend: { type: Boolean },
-  rating: { type: Number, min: 1, max: 5, required: true },
+  // Outcome and Details
+  result: { type: String, enum: ['Selected', 'Rejected', 'Pending', 'Withdrew'] },
+  salaryOffered: salarySchema,
   
-  // Compensation (optional)
-  salary: { type: String },
+  // Review Content
+  reviewTitle: { type: String, required: true },
+  overallExperience: { type: String, required: true },
+  preparationTips: { type: String },
+  questionsAsked: [{ type: String }],
+  adviceForFuture: { type: String },
+  
+  // Ratings
+  rating: ratingSchema,
+  
+  // Reviewer Information
+  reviewerInfo: reviewerInfoSchema,
   
   // Metadata
   tags: [{ type: String }],
-  datePosted: { type: String, default: () => new Date().toISOString().split('T')[0] },
-  
-  // Student Information (anonymous)
-  branch: { type: String },
-  graduationYear: { type: String }
+  datePosted: { type: String, default: () => new Date().toISOString().split('T')[0] }
 }, {
   timestamps: true,
   collection: 'reviews'
