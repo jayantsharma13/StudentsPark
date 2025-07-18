@@ -32,3 +32,24 @@ dist-ssr
 
 # Backend environment
 backend/.env
+
+# Development and test files
+test-*.js
+test-*.ts
+test-*.bat
+*.test.js
+*.test.ts
+debug-*
+temp-*
+start-*.bat
+setup-*.md
+*-setup.*
+
+# Build outputs
+build/
+.cache/
+.vite/
+
+# OS generated files
+Thumbs.db
+.DS_Store
